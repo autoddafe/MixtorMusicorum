@@ -3,6 +3,7 @@ import random
 from flask import Flask, request, redirect, session, render_template, url_for
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
+from spotipy.exceptions import SpotifyException
 
 app = Flask(__name__)
 app.secret_key = 'una_clave_muy_secreta'  # Cámbiala por algo seguro y único
@@ -26,14 +27,8 @@ def create_spotify_oauth():
 @app.route('/')
 def index():
     token_info = session.get('token_info', None)
-    if not token_info:
-        # No autenticado → mostrar solo botón de login
-        auth_url = create_spotify_oauth().get_authorize_url()
-        return render_template('index.html', auth_url=auth_url, logged_in=False)
-    else:
-        # Ya autenticado → mostrar formulario
-        auth_url = create_spotify_oauth().get_authorize_url()
-        return render_template('index.html', auth_url=auth_url, logged_in=True)
+    auth_url = create_spotify_oauth().get_authorize_url()
+    return render_template('index.html', auth_url=auth_url, logged_in=bool(token_info))
 
 # Callback de Spotify
 @app.route('/callback')
@@ -68,25 +63,38 @@ def mix():
 
     if request.method == 'POST':
         playlist_url = request.form.get('playlist_url')
-        playlist_id = playlist_url.split('/')[-1].split('?')[0]
+        try:
+            playlist_id = playlist_url.split('/')[-1].split('?')[0]
 
-        # Obtener canciones
-        tracks = []
-        results = sp.playlist_items(playlist_id)
-        tracks.extend(results['items'])
-
-        while results['next']:
-            results = sp.next(results)
+            # Obtener canciones
+            tracks = []
+            results = sp.playlist_items(playlist_id)
             tracks.extend(results['items'])
 
-        # Mezclar canciones
-        uris = [item['track']['uri'] for item in tracks]
-        random.shuffle(uris)
+            while results['next']:
+                results = sp.next(results)
+                tracks.extend(results['items'])
 
-        # Reemplazar canciones en la playlist
-        sp.playlist_replace_items(playlist_id, uris)
+            # Mezclar canciones
+            uris = [item['track']['uri'] for item in tracks if item['track'] and item['track']['uri']]
+            random.shuffle(uris)
 
-        return render_template('index.html', auth_url=create_spotify_oauth().get_authorize_url(), logged_in=True, success=True)
+            # Reemplazar canciones por bloques de 100
+            sp.playlist_replace_items(playlist_id, uris[:100])
+
+            if len(uris) > 100:
+                for i in range(100, len(uris), 100):
+                    sp.playlist_add_items(playlist_id, uris[i:i+100])
+
+            return render_template('index.html', auth_url=create_spotify_oauth().get_authorize_url(), logged_in=True, success=True)
+
+        except SpotifyException as e:
+            print(f"Spotify error: {e}")
+            return render_template('index.html', auth_url=create_spotify_oauth().get_authorize_url(), logged_in=True, error="Hubo un error con Spotify. Verifica el enlace o intenta de nuevo.")
+
+        except Exception as e:
+            print(f"Error general: {e}")
+            return render_template('index.html', auth_url=create_spotify_oauth().get_authorize_url(), logged_in=True, error="Ocurrió un error inesperado. Intenta de nuevo.")
 
     return redirect(url_for('index'))
 

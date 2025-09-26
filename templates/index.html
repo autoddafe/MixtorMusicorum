@@ -30,11 +30,16 @@
       </form>
 
       {% if success %}
-        <p style="margin-top: 15px; color: green; font-weight: bold;">¡Playlist mezclada exitosamente!</p>
+        <p style="margin-top: 15px; color: green; font-weight: bold;">
+          ✅ ¡Playlist mezclada exitosamente!
+        </p>
+      {% elif error %}
+        <p style="margin-top: 15px; color: red; font-weight: bold;">
+          ⚠️ {{ error }}
+        </p>
       {% endif %}
     {% endif %}
-    
+
   </div>
 </body>
 </html>
-
