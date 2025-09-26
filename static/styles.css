@@ -93,32 +93,34 @@ button:active {
   transform: scale(0.98);
 }
 
-/* Responsive para pantallas pequeñas */
-@media (max-width: 480px) {
+
+/* Responsive para pantallas verticales (móviles en portrait) */
+@media (max-width: 768px) and (orientation: portrait) {
   body, html {
-    overflow: auto; /* Permite scroll en móviles */
-    background-attachment: scroll; /* Evita problemas con fondo fijo */
-    background-position: center top;
-    background-size: contain; /* Ajusta la imagen para que no se recorte */
+    overflow: auto;
+    background: url('/static/fondo_snoopy_mobile.png') no-repeat center top scroll;
+    background-size: contain;
+    background-attachment: scroll;
+    background-repeat: no-repeat;
   }
-  
+
   .centered-container {
-    max-width: 90vw; /* Ancho máximo del 90% del viewport */
+    max-width: 90vw;
     margin: 5vh auto;
     padding: 20px 25px;
     border-width: 3px;
   }
-  
+
   h1 {
     font-size: 1.5rem;
     margin-bottom: 20px;
   }
-  
+
   input[type="text"] {
     font-size: 0.9rem;
     padding: 10px 12px;
   }
-  
+
   button {
     font-size: 1rem;
     padding: 10px 20px;
@@ -126,4 +128,3 @@ button:active {
     border-radius: 25px;
   }
 }
-
