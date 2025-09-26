@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mezclar Mi Playlist</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+<div class="container">
+  <h1>Mezclar Mi Playlist 🎵</h1>
+  <a href="{{ auth_url }}" class="btn">Iniciar sesión con Spotify</a>
+  <form method="POST" action="/mix">
+    <input
+      type="text"
+      name="playlist_url"
+      placeholder="Pega aquí el link de tu playlist"
+      required
+    />
+    <button type="submit">Mezclar Playlist</button>
+  </form>
+  {% if success %}
+  <p class="success">✅ ¡Tu playlist fue mezclada con éxito!</p>
+  {% endif %}
+</div>
+</body>
+</html>
