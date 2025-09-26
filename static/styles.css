@@ -96,7 +96,10 @@ button:active {
 /* Responsive para pantallas pequeñas */
 @media (max-width: 480px) {
   body, html {
-    overflow: auto; /* Para que permita scroll en móviles */
+    overflow: auto; /* Permite scroll en móviles */
+    background-attachment: scroll; /* Evita problemas con fondo fijo */
+    background-position: center top;
+    background-size: contain; /* Ajusta la imagen para que no se recorte */
   }
   
   .centered-container {
