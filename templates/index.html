@@ -9,17 +9,32 @@
 <body>
   <div class="centered-container">
     <h1>Musicorum</h1>
-    <form action="/mix" method="post">
-      <label for="playlist_url">URL de la playlist Spotify:</label>
-      <input
-        type="text"
-        id="playlist_url"
-        name="playlist_url"
-        placeholder="Pega aquí tu playlist"
-        required
-      />
-      <button type="submit">Mezclar</button>
-    </form>
+
+    {% if not logged_in %}
+      <!-- Mostrar solo botón de login si no ha iniciado sesión -->
+      <a href="{{ auth_url }}">
+        <button>Iniciar sesión con Spotify</button>
+      </a>
+    {% else %}
+      <!-- Mostrar formulario si ya está autenticado -->
+      <form action="/mix" method="post">
+        <label for="playlist_url">URL de la playlist Spotify:</label>
+        <input
+          type="text"
+          id="playlist_url"
+          name="playlist_url"
+          placeholder="Pega aquí tu playlist"
+          required
+        />
+        <button type="submit">Mezclar</button>
+      </form>
+
+      {% if success %}
+        <p style="margin-top: 15px; color: green; font-weight: bold;">¡Playlist mezclada exitosamente!</p>
+      {% endif %}
+    {% endif %}
+    
   </div>
 </body>
 </html>
+
