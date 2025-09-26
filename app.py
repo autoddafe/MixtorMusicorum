@@ -74,5 +74,8 @@ def mix():
 
     return render_template('index.html', auth_url=create_spotify_oauth().get_authorize_url())
 
+import os
+
 if __name__ == '__main__':
-    app.run(debug=True, port=8888)
+    port = int(os.environ.get('PORT', 5000))  # Puerto que Render asigna
+    app.run(host='0.0.0.0', port=port, debug=True)

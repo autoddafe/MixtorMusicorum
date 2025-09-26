@@ -1,56 +1,94 @@
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #1DB954, #1ED760);
-  color: white;
-  display: flex;
-  justify-content: center;
-  height: 100vh;
+/* Reset básico */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
 }
 
-.container {
-  text-align: center;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 40px;
+body, html {
+  height: 100%;
+  margin: 0;
+  background: url('/static/fondo_snoopy.png') no-repeat center center fixed;
+  background-size: cover;
+  overflow: hidden;
+}
+
+/* Contenedor centrado con fondo blanco y borde "bordado" */
+.centered-container {
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
+  margin: 10vh auto;
+  padding: 30px 40px;
+  background: white;
   border-radius: 12px;
-  width: 320px;
-  margin-top: auto;
-  margin-bottom: auto;
+
+  /* Borde bordado */
+  border: 4px dotted #444;
+  box-shadow: 
+    inset 0 0 10px #999,
+    0 0 15px #aaa;
+
+  text-align: center;
 }
 
+/* Título con fuente Poppins, elegante y moderna */
 h1 {
+  margin-bottom: 25px;
+  font-weight: 700;
+  font-size: 2rem;
+  color: black;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Formulario */
+form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-align: left;
+  color: #555;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 14px;
   margin-bottom: 20px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
 }
 
-input[type='text'] {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  margin-bottom: 12px;
+input[type="text"]:focus {
+  outline: none;
+  border-color: #222;
+  box-shadow: 0 0 6px rgba(34, 34, 34, 0.3);
 }
 
-button,
-.btn {
-  background-color: #1ed760;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  color: #000;
-  font-weight: bold;
+/* Botón blanco con borde negro y texto negro */
+button {
+  background-color: white;
+  color: black;
+  font-weight: 700;
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  border: 2px solid black;
+  border-radius: 30px;
   cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
   width: 100%;
-  margin-bottom: 10px;
-  text-decoration: none;
-  display: inline-block;
+  box-shadow: none;
 }
 
-button:hover,
-.btn:hover {
-  background-color: #1db954;
+button:hover {
+  background-color: #f0f0f0;
+  color: black;
+  transform: scale(1.05);
 }
 
-.success {
-  margin-top: 20px;
-  font-weight: bold;
+button:active {
+  transform: scale(0.98);
 }
