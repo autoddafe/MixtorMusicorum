@@ -29,15 +29,6 @@ def create_spotify_oauth(user_id=None):
 
 @app.route('/')
 def index():
-    # Logout
-    if request.args.get('logout'):
-        user_id = session.get('user_id')
-        session.clear()
-        # Eliminar cache del usuario actual
-        if user_id and os.path.exists(f".cache-{user_id}"):
-            os.remove(f".cache-{user_id}")
-        return redirect(url_for('index'))
-
     token_info = session.get('token_info')
     profile = None
     if token_info:
@@ -163,6 +154,19 @@ def mix():
             profile=user,
             error="Ocurrió un error inesperado. Intenta de nuevo."
         )
+
+
+# 🚀 Nueva ruta: Logout (borra sesión y .cache del usuario)
+@app.route('/logout')
+def logout():
+    user_id = session.get('user_id')
+    session.clear()
+
+    # Eliminar el archivo de caché específico del usuario
+    if user_id and os.path.exists(f".cache-{user_id}"):
+        os.remove(f".cache-{user_id}")
+
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
