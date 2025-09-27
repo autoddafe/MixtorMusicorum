@@ -16,6 +16,19 @@
         <button>Iniciar sesión con Spotify</button>
       </a>
     {% else %}
+      <!-- Mostrar perfil del usuario -->
+      {% if profile %}
+        <div class="profile-box" style="margin-bottom: 20px; text-align: center;">
+          {% if profile.images and profile.images[0] %}
+            <img src="{{ profile.images[0].url }}" alt="Foto de perfil" width="100" style="border-radius: 50%; margin-bottom: 10px;">
+          {% endif %}
+          <h2>{{ profile.display_name }}</h2>
+          <p>{{ profile.email }}</p>
+          <p><strong>ID:</strong> {{ profile.id }}</p>
+          <a href="{{ url_for('index') }}?logout=true" style="display:inline-block; margin-top:10px; padding:8px 15px; background:#e53935; color:#fff; border-radius:15px; text-decoration:none;">Cerrar sesión</a>
+        </div>
+      {% endif %}
+
       <!-- Mostrar formulario si ya está autenticado -->
       <form action="/mix" method="post">
         <label for="playlist_url">URL de la playlist Spotify:</label>
@@ -29,6 +42,7 @@
         <button type="submit">Mezclar</button>
       </form>
 
+      <!-- Mensajes -->
       {% if success %}
         <p style="margin-top: 15px; color: green; font-weight: bold;">
           ✅ ¡Playlist mezclada exitosamente!
@@ -38,8 +52,17 @@
           ⚠️ {{ error }}
         </p>
       {% endif %}
-    {% endif %}
 
+      <!-- Ayuda -->
+      <div style="margin-top: 20px; font-size: 0.9em; color: #bbb; text-align: left;">
+        <p><strong>ℹ️ Consejo:</strong> Asegúrate de copiar el enlace de tu playlist desde Spotify.</p>
+        <ul>
+          <li>En la app o web, haz clic en <em>Compartir → Copiar enlace de la playlist</em>.</li>
+          <li>El enlace debe verse como: <code>https://open.spotify.com/playlist/XXXXXXXXXXXX</code></li>
+          <li>Solo puedes mezclar playlists que <strong>tú seas el propietario</strong>.</li>
+        </ul>
+      </div>
+    {% endif %}
   </div>
 </body>
 </html>
