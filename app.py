@@ -31,21 +31,38 @@ def create_spotify_oauth(user_id=None):
 def index():
     token_info = session.get('token_info')
     profile = None
+    playlists = []
+
     if token_info:
         sp = Spotify(auth=token_info['access_token'])
+
         try:
             profile = sp.current_user()
-        except:
+
+            results = sp.current_user_playlists()
+
+            while results:
+                playlists.extend(results['items'])
+
+                if results['next']:
+                    results = sp.next(results)
+                else:
+                    results = None
+
+        except Exception:
             session.clear()
             return redirect(url_for('index'))
 
     auth_url = create_spotify_oauth().get_authorize_url()
+
     return render_template(
         'index.html',
         auth_url=auth_url,
         logged_in=bool(token_info),
-        profile=profile
+        profile=profile,
+        playlists=playlists
     )
+
 
 
 @app.route('/callback')
