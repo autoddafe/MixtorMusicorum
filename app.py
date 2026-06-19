@@ -136,6 +136,9 @@ def get_token():
 
 @app.route('/mix', methods=['POST'])
 def mix():
+
+    print("ENTRÓ A MIX")
+
     try:
         token_info = get_token()
     except:
@@ -144,9 +147,8 @@ def mix():
     sp = Spotify(auth=token_info['access_token'])
     user = sp.current_user()
 
-    playlist_url = request.form.get('playlist_url')
     try:
-        playlist_id = playlist_url.split('/')[-1].split('?')[0]
+        playlist_id = request.form.get('playlist_id')
 
         # Validar que la playlist existe
         playlist = sp.playlist(playlist_id)
@@ -176,6 +178,7 @@ def mix():
 
         # Reemplazar canciones en bloques de 100
         sp.playlist_replace_items(playlist_id, uris[:100])
+
         if len(uris) > 100:
             for i in range(100, len(uris), 100):
                 sp.playlist_add_items(playlist_id, uris[i:i + 100])
@@ -195,7 +198,7 @@ def mix():
             auth_url=create_spotify_oauth().get_authorize_url(),
             logged_in=True,
             profile=user,
-            error="⚠️ Hubo un error con Spotify. Verifica el enlace o intenta de nuevo."
+            error="⚠️ Hubo un error con Spotify. Intenta de nuevo."
         )
 
     except Exception as e:
@@ -205,7 +208,11 @@ def mix():
             auth_url=create_spotify_oauth().get_authorize_url(),
             logged_in=True,
             profile=user,
+<<<<<<< HEAD
              error=f"⚠️ {str(e)}"
+=======
+            error=f"⚠️ {str(e)}"
+>>>>>>> d146ba8 (Agregar selector de playlists)
         )
 
 
