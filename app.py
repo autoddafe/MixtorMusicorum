@@ -55,6 +55,8 @@ def index():
 
     auth_url = create_spotify_oauth().get_authorize_url()
 
+    print(f"PLAYLISTS CARGADAS: {len(playlists)}")
+
     return render_template(
         'index.html',
         auth_url=auth_url,
