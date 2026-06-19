@@ -208,11 +208,8 @@ def mix():
             auth_url=create_spotify_oauth().get_authorize_url(),
             logged_in=True,
             profile=user,
-<<<<<<< HEAD
-             error=f"⚠️ {str(e)}"
-=======
             error=f"⚠️ {str(e)}"
->>>>>>> d146ba8 (Agregar selector de playlists)
+
         )
 
 
