@@ -205,7 +205,7 @@ def mix():
             auth_url=create_spotify_oauth().get_authorize_url(),
             logged_in=True,
             profile=user,
-            error="⚠️ Ocurrió un error inesperado. Intenta de nuevo."
+             error=f"⚠️ {str(e)}"
         )
 
 
