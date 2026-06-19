@@ -49,9 +49,9 @@ def index():
                 else:
                     results = None
 
-except Exception as e:
-    print("ERROR EN INDEX:", e)
-    raise
+        except Exception as e:
+            print("ERROR EN INDEX:", e)
+            raise
 
     auth_url = create_spotify_oauth().get_authorize_url()
 
