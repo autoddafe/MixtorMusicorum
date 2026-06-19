@@ -76,6 +76,7 @@ def callback():
             token_info = sp_oauth.get_access_token(code)
             sp = Spotify(auth=token_info['access_token'])
             user = sp.current_user()
+            
 
             # Guardamos en sesión
             session['token_info'] = token_info
@@ -183,13 +184,8 @@ def mix():
             for i in range(100, len(uris), 100):
                 sp.playlist_add_items(playlist_id, uris[i:i + 100])
 
-        return render_template(
-            'index.html',
-            auth_url=create_spotify_oauth().get_authorize_url(),
-            logged_in=True,
-            profile=user,
-            success=True
-        )
+        print("LLEGÓ AL REDIRECT")
+        return redirect(url_for('index'))
 
     except SpotifyException as e:
         print(f"Spotify error: {e}")
