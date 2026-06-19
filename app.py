@@ -49,7 +49,7 @@ def index():
                 else:
                     results = None
 
-        except Exception as e:
+except Exception as e:
     print("ERROR EN INDEX:", e)
     raise
 
