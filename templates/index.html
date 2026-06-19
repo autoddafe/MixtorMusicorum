@@ -31,14 +31,17 @@
 
       <!-- Mostrar formulario si ya está autenticado -->
       <form action="/mix" method="post">
-        <label for="playlist_url">URL de la playlist Spotify:</label>
-        <input
-          type="text"
-          id="playlist_url"
-          name="playlist_url"
-          placeholder="Pega aquí tu playlist"
-          required
-        />
+        <label for="playlist_id">Selecciona una playlist:</label>
+
+<select id="playlist_id" name="playlist_id" required>
+  <option value="">-- Elige una playlist --</option>
+
+  {% for playlist in playlists %}
+    <option value="{{ playlist.id }}">
+      {{ playlist.name }}
+    </option>
+  {% endfor %}
+</select>
         <button type="submit">Mezclar</button>
       </form>
 
